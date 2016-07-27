@@ -17,14 +17,6 @@ import 'rxjs/add/operator/debounceTime';
     <input required minlength="3" type="password" name="password" ngModel>
   </fieldset>
   
-  <fieldset ngModelGroup="vacation">
-  <label>Start Date:<input type="date" name="start" ngModel></label>
-  <label>End Date: <input type="date" name="end" ngModel></label>
-  
-  <label>Home<input type="radio" name="location" [ngModel]="location" value="home"></label>
-  <label>Away<input type="radio" name="location" [ngModel]="location" value="away"></label>
-</fieldset>
-  
   <button type="submit">Submit</button>
 
   <hr>
@@ -39,7 +31,6 @@ export class App {
     @ViewChild('f') f;
 
     firstName = "John";
-    location = "away";
 
     onSubmit(value) {
         console.log(value);
