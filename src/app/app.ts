@@ -4,17 +4,14 @@ import {Component, ViewChild} from "@angular/core";
     selector: 'app',
     template: `<form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
   <fieldset ngModelGroup="login">
-    <input required type="text" name="username" [ngModel]="firstName">
-    <input required minlength="3" type="password" name="password" ngModel>
+    <input type="text" name="username" [ngModel]="firstName">
+    <input type="password" name="password" ngModel>
   </fieldset>
   
   <button type="submit">Submit</button>
 
   <hr>
   {{f.value | json}}
-  <hr>
-  {{f.valid}}
-
 
 </form>`
 })
