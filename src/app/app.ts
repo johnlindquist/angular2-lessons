@@ -4,6 +4,15 @@ import {Router, ROUTER_DIRECTIVES} from "@angular/router";
 @Component({
     selector: 'app',
     directives: [ROUTER_DIRECTIVES],
+    styles:[`
+a.active {
+    font-weight: bold;
+}
+
+a:not(.active) {
+    text-decoration: none;
+}
+`],
     template: `<!-- The address bar is for help viewing the URL in online demos-->
 <div class="address-bar">
     Online Demo Address Bar: <input
@@ -13,8 +22,15 @@ import {Router, ROUTER_DIRECTIVES} from "@angular/router";
 </div>
 <hr>
 <nav>
-    <a routerLink="">Home</a>
-    <a routerLink="contacts">Contacts</a>
+    <a 
+        routerLink=""
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}"
+        >Home</a>
+    <a 
+        routerLink="contacts"
+        routerLinkActive="active"
+        >Contacts</a>
 </nav>
 <router-outlet></router-outlet>
   `
