@@ -14,8 +14,7 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
       state('stop', style({
         'background-color': 'red'
       })),
-      transition('go => slow', animate('.1s')),
-      transition('slow => stop', animate('1s'))
+      transition('* => *', animate('.5s'))
     ])
   ],
   styles: [`
