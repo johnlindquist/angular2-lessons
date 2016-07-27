@@ -24,7 +24,7 @@ a:not(.active) {
 <hr>
 <button (click)="loginService.login$.next(true)">Login</button>
 <button (click)="loginService.login$.next(false)">Logout</button>
-{{loginService.login$ | async}}
+{{loginService.loginTimeout$ | async}}
 <nav>
     <a
         routerLink=""

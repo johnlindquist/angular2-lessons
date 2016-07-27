@@ -6,6 +6,6 @@ export class ContactGuard{
     constructor(private loginService:LoginService){}
 
     canActivate(){
-        return this.loginService.login$.take(1);
+        return this.loginService.loginTimeout$.take(1);
     }
 }
