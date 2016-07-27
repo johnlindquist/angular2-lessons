@@ -18,11 +18,9 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
         'background-color': 'red'
       })),
       transition('go => slow', animate('.1s')),
-      transition('slow => stop', animate('1s', style({
-        'transform':'rotate(90deg)',
-        'background-color': 'red'
-      }))),
-      transition('* <=> void', animate('.5s ease-in-out'))
+      transition('slow => stop', animate('1s')),
+      //  animate: duration, delay, easing
+      transition('* <=> void', animate('5s 2s ease-out'))
     ])
   ],
   styles: [`
