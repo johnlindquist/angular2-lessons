@@ -22,15 +22,28 @@ a:not(.active) {
 </div>
 <hr>
 <nav>
-    <a 
+    <a
         routerLink=""
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}"
-        >Home</a>
-    <a 
+    >
+        Home
+    </a>
+
+    <a
         routerLink="contacts"
         routerLinkActive="active"
-        >Contacts</a>
+        [routerLinkActiveOptions]="{exact:true}"
+    >
+        Contacts
+    </a>
+    
+    <a
+        routerLink="contacts/1"
+        routerLinkActive="active"
+    >
+        Contact 1
+    </a>
 </nav>
 <router-outlet></router-outlet>
   `
