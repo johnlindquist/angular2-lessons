@@ -5,9 +5,6 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
 
   animations: [
     trigger('signal', [
-      state('void', style({
-        'transform': 'translateX(-100px)'
-      })),
       state('go', style({
         'background-color': 'green'
       })),
@@ -18,9 +15,7 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
         'background-color': 'red'
       })),
       transition('go => slow', animate('.1s')),
-      transition('slow => stop', animate('1s')),
-      transition('void => *', animate('1s')),
-      transition('* => void', animate('1s'))
+      transition('slow => stop', animate('1s'))
     ])
   ],
   styles: [`
@@ -32,13 +27,11 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
 `],
   template: `
 <div
-  *ngIf="show"
   class="light"
   @signal="signal"
   (click)="update()"
   ></div>
   {{signal}}
-  <button (click)="show = !show">Show</button>
 `
 })
 export class App {
