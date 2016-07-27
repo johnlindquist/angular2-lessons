@@ -37,13 +37,6 @@ a:not(.active) {
     >
         Contacts
     </a>
-    
-    <a
-        routerLink="contacts/1"
-        routerLinkActive="active"
-    >
-        Contact 1
-    </a>
 </nav>
 <router-outlet></router-outlet>
   `
