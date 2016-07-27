@@ -8,7 +8,10 @@ const routes = [
     {path: '', component: Home},
     {path: 'contacts', component: ContactsIndex, children:[
         {path: '', component: ContactsList},
-        {path: ':id', component:Contact, canActivate:[ContactGuard]}
+        {path: ':id', component:Contact,
+            canActivate:[ContactGuard],
+            canDeactivate:[ContactGuard]
+        }
     ]},
 ];
 

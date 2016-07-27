@@ -8,4 +8,8 @@ export class ContactGuard{
     canActivate(){
         return this.loginService.loginTimeout$.take(1);
     }
+
+    canDeactivate(){
+        return this.loginService.loginTimeout$.take(1);
+    }
 }
