@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES} from "@angular/router";
+import {LoginService} from "./login.service";
 
 @Component({
     selector: 'app',
@@ -21,6 +22,9 @@ a:not(.active) {
 >
 </div>
 <hr>
+<button (click)="loginService.login$.next(true)">Login</button>
+<button (click)="loginService.login$.next(false)">Logout</button>
+{{loginService.login$ | async}}
 <nav>
     <a
         routerLink=""
@@ -46,6 +50,6 @@ export class App {
         this.router.navigate([url]);
     }
 
-    constructor(private router: Router) {
+    constructor(private loginService:LoginService, private router:Router) {
     }
 }
