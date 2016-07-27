@@ -1,11 +1,14 @@
 import {Home} from "./home/home";
 import {provideRouter} from "@angular/router";
-import {Contacts} from "./contacts/contacts";
-import {Contact} from "./contact/contact";
+import {ContactsList} from "./contacts/list/list";
+import {Contact} from "./contacts/contact/contact";
+import {ContactsIndex} from "./contacts/contacts-index";
 const routes = [
     {path: '', component: Home},
-    {path: 'contacts', component: Contacts},
-    {path: 'contacts/:id', component: Contact}
+    {path: 'contacts', component: ContactsIndex, children:[
+        {path: '', component: ContactsList},
+        {path: ':id', component:Contact}
+    ]},
 ];
 
 export const APP_ROUTES = [
