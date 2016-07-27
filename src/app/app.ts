@@ -19,8 +19,8 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
       })),
       transition('go => slow', animate('.1s')),
       transition('slow => stop', animate('1s')),
-      //  animate: duration, delay, easing
-      transition('* <=> void', animate('5s 2s ease-out'))
+      transition('void => *', animate('1s')),
+      transition('* => void', animate('1s'))
     ])
   ],
   styles: [`
