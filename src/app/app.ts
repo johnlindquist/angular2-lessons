@@ -13,8 +13,7 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
       })),
       state('stop', style({
         'background-color': 'red'
-      })),
-      transition('* => *', animate('.5s'))
+      }))
     ])
   ],
   styles: [`
