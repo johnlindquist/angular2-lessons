@@ -1,5 +1,4 @@
 import {Component, ViewChild} from "@angular/core";
-import 'rxjs/add/operator/debounceTime';
 
 @Component({
     selector: 'app',
@@ -28,17 +27,9 @@ import 'rxjs/add/operator/debounceTime';
 </form>`
 })
 export class App {
-    @ViewChild('f') f;
-
     firstName = "John";
 
     onSubmit(value) {
         console.log(value);
-    }
-
-    ngAfterViewInit() {
-        this.f.valueChanges
-            .debounceTime(2000)
-            .subscribe(v => console.log(v));
     }
 }
