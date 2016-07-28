@@ -1,12 +1,11 @@
 import {Component} from "@angular/core";
+import {Smart} from "./components/smart.component";
+import {Simple} from "./services/simple.service";
 
 @Component({
     selector: 'app',
-    template: `
-<h1>{{message}}</h1>
-<input type="text" [(ngModel)]="message">
-`
+    directives: [Smart],
+    providers: [Simple],
+    template: `<smart></smart>`
 })
-export class App {
-    message = `Hello, world!`
-}
+export class App {}
