@@ -17,4 +17,12 @@ import {Component, Input} from "@angular/core";
 })
 export class Dumb{
     @Input() message;
+
+    ngOnInit(){
+        console.log(this.message);
+    }
+
+    ngOnDestroy(){
+        console.log('clean up your mess');
+    }
 }
