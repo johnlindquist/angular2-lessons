@@ -8,10 +8,14 @@ import {Dumb} from "./dumb.component";
     template: `
     {{simple.message}}
     <hr>
-    <dumb [message]="simple.message"></dumb>
+    <dumb [message]="simple.message">
+    <button (click)="onClick()">{{simple.message}}</button>
+</dumb>
 `
 })
 export class Smart{
+    onClick(){alert('hi')}
+
     constructor(private simple:Simple){}
 }
 
