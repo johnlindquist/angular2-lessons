@@ -8,7 +8,7 @@ import {Dumb} from "./dumb.component";
     template: `
     {{simple.message}}
     <hr>
-    <dumb [message]="'whatever'"></dumb>
+    <dumb [message]="simple.message"></dumb>
 `
 })
 export class Smart{

@@ -1,7 +1,17 @@
 import {Component, Input} from "@angular/core";
 @Component({
     selector: 'dumb',
-    template: `{{message}}`
+    styles:[`
+        :host{
+            font-family: Arial;
+            display: block;
+            border: 3px solid black;
+        }
+`],
+    template: `
+    <h2>I'm the dumb component</h2>
+    {{message}}
+`
 })
 export class Dumb{
     @Input() message;
