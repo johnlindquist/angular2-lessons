@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, ViewChild, Renderer} from "@angular/core";
 @Component({
     selector: 'dumb',
     styles:[`
@@ -9,6 +9,7 @@ import {Component, Input} from "@angular/core";
         }
 `],
     template: `
+    <input #input type="text">
     <h2>I'm the dumb component</h2>
     <div>{{message}}</div>
     <ng-content select="[footer]"></ng-content>    
@@ -18,8 +19,20 @@ import {Component, Input} from "@angular/core";
 export class Dumb{
     @Input() message;
 
+    @ViewChild('input') input;
+
+    constructor(private renderer:Renderer){}
+
     ngOnInit(){
         console.log(this.message);
+    }
+
+    ngAfterViewInit(){
+        this.renderer.invokeElementMethod(
+            this.input.nativeElement,
+            'focus',
+            []
+        )
     }
 
     ngOnDestroy(){
