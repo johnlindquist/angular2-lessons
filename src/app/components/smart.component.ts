@@ -6,13 +6,8 @@ import {Dumb} from "./dumb.component";
     selector: 'smart',
     directives: [Dumb],
     template: `
-    <button (click)="show = !show">Init and Destroy</button>
-    <hr>
-    
-    <dumb *ngIf="show" [message]="simple.message">    
-        <h1 header>I'm a header</h1>
-        <h2 footer>Footer</h2>
-    </dumb>
+
+    <dumb></dumb>
 `
 })
 export class Smart{

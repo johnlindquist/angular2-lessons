@@ -1,7 +1,15 @@
-import {Component, Input, ViewChild, Renderer} from "@angular/core";
+import {Component, Input, ViewChild, Renderer, ViewContainerRef, ComponentResolver} from "@angular/core";
+
+@Component({
+    selector: 'simple',
+    template: `Simple Component`
+})
+class SimpleComponent{}
+
+
 @Component({
     selector: 'dumb',
-    styles:[`
+    styles: [`
         :host{
             font-family: Arial;
             display: block;
@@ -9,33 +17,19 @@ import {Component, Input, ViewChild, Renderer} from "@angular/core";
         }
 `],
     template: `
-    <input #input type="text">
-    <h2>I'm the dumb component</h2>
-    <div>{{message}}</div>
-    <ng-content select="[footer]"></ng-content>    
-    <ng-content select="[header]"></ng-content>    
+        <h2>Above</h2>
+        <div #putStuffHere></div>
+        <h2>Below</h2>
 `
 })
-export class Dumb{
-    @Input() message;
+export class Dumb {
+    @ViewChild('putStuffHere', {read: ViewContainerRef}) putStuffHere;
 
-    @ViewChild('input') input;
-
-    constructor(private renderer:Renderer){}
-
-    ngOnInit(){
-        console.log(this.message);
+    constructor(private resolver:ComponentResolver) {
     }
 
-    ngAfterViewInit(){
-        this.renderer.invokeElementMethod(
-            this.input.nativeElement,
-            'focus',
-            []
-        )
-    }
-
-    ngOnDestroy(){
-        console.log('clean up your mess');
+    ngAfterViewInit() {
+        this.resolver.resolveComponent(SimpleComponent)
+            .then(factory => this.putStuffHere.createComponent(factory))
     }
 }
