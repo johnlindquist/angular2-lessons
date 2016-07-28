@@ -9,10 +9,10 @@ import {Component, Input} from "@angular/core";
         }
 `],
     template: `
-    <ng-content></ng-content>
     <h2>I'm the dumb component</h2>
-    {{message}}
-    
+    <div>{{message}}</div>
+    <ng-content select="[footer]"></ng-content>    
+    <ng-content select="[header]"></ng-content>    
 `
 })
 export class Dumb{

@@ -9,8 +9,10 @@ import {Dumb} from "./dumb.component";
     {{simple.message}}
     <hr>
     <dumb [message]="simple.message">
-    <button (click)="onClick()">{{simple.message}}</button>
-</dumb>
+    
+        <h1 header>I'm a header</h1>
+        <h2 footer>Footer</h2>
+    </dumb>
 `
 })
 export class Smart{
