@@ -1,13 +1,6 @@
 import {Component, Input, ViewChild, Renderer, ViewContainerRef, ComponentResolver} from "@angular/core";
 
 @Component({
-    selector: 'simple',
-    template: `Simple Component`
-})
-class SimpleComponent{}
-
-
-@Component({
     selector: 'dumb',
     styles: [`
         :host{
@@ -17,19 +10,23 @@ class SimpleComponent{}
         }
 `],
     template: `
-        <h2>Above</h2>
+        <template #myTemplate>
+            <h2>My awesome content</h2>
+        </template>
+
+        <h3>Above</h3>
         <div #putStuffHere></div>
-        <h2>Below</h2>
+        <h3>Below</h3>
 `
 })
 export class Dumb {
+    @ViewChild('myTemplate') myTemplate;
     @ViewChild('putStuffHere', {read: ViewContainerRef}) putStuffHere;
 
     constructor(private resolver:ComponentResolver) {
     }
 
     ngAfterViewInit() {
-        this.resolver.resolveComponent(SimpleComponent)
-            .then(factory => this.putStuffHere.createComponent(factory))
+        this.putStuffHere.createEmbeddedView(this.myTemplate);
     }
 }
