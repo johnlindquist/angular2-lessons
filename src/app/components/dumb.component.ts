@@ -31,7 +31,10 @@ export class Dumb {
     }
 
     ngAfterViewInit() {
-        this.resolver.resolveComponent(componentBuilder('whatever', `Wow, this is neat!`))
-            .then(factory => this.putStuffHere.createComponent(factory));
+        this.resolver.resolveComponent(componentBuilder('whatever', `{{message}}`))
+            .then(factory => {
+                const ref = this.putStuffHere.createComponent(factory);
+                ref.instance.message = "Awesome";
+            });
     }
 }
