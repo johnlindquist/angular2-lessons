@@ -1,1 +1,0 @@
-http://embed.plnkr.co/github/johnlindquist/angular2-lessons/styles-within-animation
