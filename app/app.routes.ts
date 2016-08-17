@@ -1,12 +1,7 @@
 import {RouterModule} from "@angular/router";
-import {Index} from "./index/index.component";
-import {Active} from "./active/active.component";
-import {Completed} from "./completed/completed.component";
 
 export const routes = RouterModule.forRoot([
-    {path: '', component: Index},
-    {path: 'active', component: Active},
-    {path: 'completed', component: Completed},
+    {path: '', loadChildren: 'app/index/index.module'},
+    {path: 'active', loadChildren: 'app/active/active.module'},
+    {path: 'completed', loadChildren: 'app/completed/completed.module'},
 ]);
-
-export const routeComponents = [Index, Active, Completed];
