@@ -3,7 +3,8 @@
   "version": "1.0.1",
   "description": "Angular 2 Lessons",
   "scripts": {
-    "start": "echo 'These node packages are only for tooling/IDE. This repo is meant for online demos'"
+    "start": "echo 'These node packages are only for tooling/IDE. This repo is meant for online demos'",
+    "live-server": "live-server --entry-file=index.html"
   },
   "contributors": [
     "John Lindquist"
