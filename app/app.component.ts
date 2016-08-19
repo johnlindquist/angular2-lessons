@@ -1,30 +1,65 @@
-import {Component} from "@angular/core";
-import {FormGroup, FormControl} from "@angular/forms";
+import {Component, ViewChild, ViewContainerRef} from "@angular/core";
+import {FormGroup, FormControl, Validators} from "@angular/forms";
+import {QuestionService} from "./questions.service";
+
 @Component({
     selector: 'app',
-    template: `
-<form [formGroup]="loginForm" (ngSubmit)="onLogIn(loginForm.value)">
-    <label><input type="text" formControlName="username"></label>
-    <label><input type="password" formControlName="password"></label>
+    template: `<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    <template #input
+              let-name="name"
+              let-type="type"
+              let-value="value"
+    >
+        <input [formControlName]="name" [type]="type" [id]="name">
+    </template>
+
+    <template #dropdown
+              let-name="name"
+              let-options="options"
+              let-value="value"
+    >
+        <select [formControlName]="name" [id]="name">
+            <option *ngFor="let option of options" [value]="option.key">{{option.value}}</option>
+        </select>
+    </template>
+    
+    <div #controlsContainer></div>
+    
     <button type="submit">Submit</button>
 </form>
 `
 })
 export class AppComponent {
-    onLogIn(formValue){
+    @ViewChild('controlsContainer', {read: ViewContainerRef}) controlsContainerRef: ViewContainerRef;
+    @ViewChild('input') input;
+    @ViewChild('dropdown') dropdown;
+
+    form: FormGroup = new FormGroup({});
+
+    constructor(private qService: QuestionService) {
+    }
+
+    onSubmit(formValue) {
         console.log(formValue);
     }
 
-    loginForm = new FormGroup({
-        username: new FormControl(),
-        password: new FormControl()
-    });
+    ngOnInit() {
+        this.qService.questions
+            .sort((a, b)=> a.order - b.order)
+            .forEach(q => {
+                const {template, name, type, options, value, required} = q;
 
-    ngOnInit(){
-        this.loginForm.setValue({username: 'john', password: 'password'});
-    }
+                const validators = required ? [Validators.required] : [];
 
-    ngAfterViewInit(){
-        this.loginForm.valueChanges.subscribe(v => console.log(v));
+                this.form.addControl(name, new FormControl(value, validators));
+                this.controlsContainerRef.createEmbeddedView(this[template], {
+                    name,
+                    type,
+                    value,
+                    options
+                });
+            });
+
+        this.form.valueChanges.subscribe(v => console.log(v));
     }
 }
