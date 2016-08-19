@@ -27,6 +27,8 @@ import {QuestionService} from "./questions.service";
     
     <button type="submit">Submit</button>
 </form>
+
+{{form.value | json}}
 `
 })
 export class AppComponent {
