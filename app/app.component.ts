@@ -45,7 +45,7 @@ export class AppComponent {
         console.log(formValue);
     }
 
-    ngOnInit() {
+    ngAfterContentInit() {
         this.qService.questions
             .sort((a, b)=> a.order - b.order)
             .forEach(q => {
