@@ -1,6 +1,14 @@
 import {Component, ViewChild} from "@angular/core";
 @Component({
     selector: 'app',
+    styles:[`
+.ng-invalid{
+    border: 3px solid red;
+}
+.ng-valid{
+    border: 3px solid green;
+}
+`],
     template: `
 <form 
     #formRef="ngForm" 
