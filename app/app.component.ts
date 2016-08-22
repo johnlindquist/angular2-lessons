@@ -2,10 +2,11 @@ import {Component} from "@angular/core";
 @Component({
     selector: 'app',
     template: `
-<input type="text" [(ngModel)]="message">
-<div>{{message}}</div>
+    <input type="text" [(ngModel)]="username">
+    {{username}}
 `
 })
 export class AppComponent {
-    message = "Hello"
+    username = "John";
+
 }
