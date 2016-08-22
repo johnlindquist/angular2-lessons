@@ -26,6 +26,14 @@ import {Component} from "@angular/core";
         <div *ngIf="usernameRef.errors?.required">This field is required</div>
         <div *ngIf="usernameRef.errors?.minlength">This field must be longer than {{usernameRef.errors?.minlength.requiredLength}} characters. You only typed {{usernameRef.errors?.minlength.actualLength}}</div>
         
+        <hr>
+        {{usernameRef.pristine}}
+        {{usernameRef.dirty}}
+        
+        {{usernameRef.untouched}}
+        {{usernameRef.touched}}        
+        <hr>
+        
         <input type="password" ngModel name="password">
     </fieldset>
     <button type="submit">Submit</button>
