@@ -1,34 +1,44 @@
 import {Component, ViewChild} from "@angular/core";
+import "rxjs/add/operator/distinctUntilChanged";
 
 @Component({
     selector: 'app',
     template: `
 <form>
     <h2>Both fields combined need to be > 10</h2>
-    <input type="number" name="a" [(ngModel)]="a">
-    <input type="number" name="b" [(ngModel)]="b">
-    <input 
-        type="hidden" 
-        name="total" 
-        #total="ngModel"
-        [ngModel]="a + b"
-        >
-    <hr>        
-    A is {{a}}, B is {{b}}, so combined they are <h3>{{total.valid ? 'valid' : 'invalid'}}</h3>
+    <input type="number" #a="ngModel" name="a" ngModel="4">
+    <input type="number" #b="ngModel" name="b" ngModel="3">
+     
+    <h3>A: {{a.value}} is valid? {{a.valid | json}}</h3>
+    <h3>B: {{b.value}} is valid? {{b.valid | json}}</h3>
 </form>
 `
 })
 export class AppComponent {
-    a = 3;
-    b = 4;
 
-    @ViewChild('total') total;
+    @ViewChild('a') a;
+    @ViewChild('b') b;
 
     ngAfterViewInit(){
-        this.total.control.setValidators([
-           control => control.value <= 10
-                   ? {valid: false}
-                   : null
-        ]);
+        const customValidator = ()=> {
+            const total = parseInt(this.a.control.value) + parseInt(this.b.control.value);
+            return total > 10
+                ? null
+                : {valid:false};
+        };
+
+
+        this.b.control.setValidators([customValidator]);
+
+        this.a.control.setValidators([customValidator]);
+
+        //combine these as needed :)
+        this.a.control.statusChanges
+            .distinctUntilChanged()
+            .subscribe(v => this.b.control.updateValueAndValidity())
+
+        this.b.control.statusChanges
+            .distinctUntilChanged()
+            .subscribe(v => this.a.control.updateValueAndValidity())
     }
 }
