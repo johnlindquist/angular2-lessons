@@ -43,15 +43,17 @@ export class AppComponent {
         this.add();
     }
 
-    totalValidator = ()=> {
-        const total = this.people.controls.reduce((acc, group:FormGroup)=>{
+    total(){
+        return this.people.controls.reduce((acc, group:FormGroup)=>{
             const a = group.controls['a'].value;
             const b = group.controls['b'].value;
 
             return acc + parseInt(a) + parseInt(b);
         }, 0);
+    }
 
-        return total < 24
+    totalValidator = ()=> {
+        return this.total() < 24
             ? null
             : {valid: false};
     };
@@ -67,16 +69,7 @@ export class AppComponent {
         this.total$ = this.people
             .valueChanges
             .startWith(0)
-            .map(()=> {
-                const total = this.people.controls.reduce((acc, group:FormGroup)=>{
-                    const a = group.controls['a'].value;
-                    const b = group.controls['b'].value;
-
-                    return acc + parseInt(a) + parseInt(b);
-                }, 0);
-
-                return total;
-            })
+            .map(()=> this.total())
             .distinctUntilChanged();
 
 
