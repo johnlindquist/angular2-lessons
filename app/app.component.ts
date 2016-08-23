@@ -1,44 +1,42 @@
-import {Component, ViewChild} from "@angular/core";
+import {Component, ViewChild, ViewChildren, QueryList} from "@angular/core";
 import "rxjs/add/operator/distinctUntilChanged";
+import {NgModel, NgModelGroup, FormBuilder, FormControl, FormGroup, FormArray} from "@angular/forms";
 
 @Component({
     selector: 'app',
-    template: `
-<form>
-    <h2>Both fields combined need to be > 10</h2>
-    <input type="number" #a="ngModel" name="a" ngModel="4">
-    <input type="number" #b="ngModel" name="b" ngModel="3">
-     
-    <h3>A: {{a.value}} is valid? {{a.valid | json}}</h3>
-    <h3>B: {{b.value}} is valid? {{b.valid | json}}</h3>
+    template: `<form (ngSubmit)="null" [formGroup]="form">
+    <div formArrayName="people">
+        <fieldset *ngFor="let group of people.controls; let i = index" [formGroupName]="i">
+            <input type="text" formControlName="a">
+            <input type="text" formControlName="b">
+        </fieldset>
+    </div>
+    <button (click)="add()">Add Group</button>
 </form>
 `
 })
 export class AppComponent {
+    form: FormGroup;
+    people: FormArray;
 
-    @ViewChild('a') a;
-    @ViewChild('b') b;
+    constructor(private fb: FormBuilder) {
+        this.people = fb.array([]);
+
+        this.form = fb.group({
+            people: this.people
+        })
+    }
+
+    add() {
+        this.people.push(this.fb.group(
+            {
+                a: '',
+                b: ''
+            }
+        ));
+    }
 
     ngAfterViewInit(){
-        const customValidator = ()=> {
-            const total = parseInt(this.a.control.value) + parseInt(this.b.control.value);
-            return total > 10
-                ? null
-                : {valid:false};
-        };
-
-
-        this.b.control.setValidators([customValidator]);
-
-        this.a.control.setValidators([customValidator]);
-
-        //combine these as needed :)
-        this.a.control.statusChanges
-            .distinctUntilChanged()
-            .subscribe(v => this.b.control.updateValueAndValidity())
-
-        this.b.control.statusChanges
-            .distinctUntilChanged()
-            .subscribe(v => this.a.control.updateValueAndValidity())
+        this.form.valueChanges.subscribe(v => console.log(v));
     }
 }
