@@ -2,11 +2,18 @@ import {Component} from "@angular/core";
 import "rxjs/add/operator/distinctUntilChanged";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
+import "rxjs/add/operator/startWith";
 import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
 
 @Component({
     selector: 'app',
+    styles:[`
+.ng-invalid{
+    color: red;
+}
+`],
     template: `<form (ngSubmit)="null" [formGroup]="form">
+    <h2 [ngClass]="{'ng-invalid': (total$ | async) > 23}">{{total$ | async}} should be < 24</h2>
     <div formArrayName="people">
         <fieldset #group *ngFor="let group of people.controls; let i = index" [formGroupName]="i">
             {{people.controls[i].valid}}
@@ -19,6 +26,8 @@ import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
 `
 })
 export class AppComponent {
+    total$;
+
     form: FormGroup;
     people: FormArray;
 
@@ -34,29 +43,30 @@ export class AppComponent {
         this.add();
     }
 
+    totalValidator = ()=> {
+        const total = this.people.controls.reduce((acc, group:FormGroup)=>{
+            const a = group.controls['a'].value;
+            const b = group.controls['b'].value;
+
+            return acc + parseInt(a) + parseInt(b);
+        }, 0);
+
+        return total < 24
+            ? null
+            : {valid: false};
+    };
+
     add() {
-        const validator = ()=> {
-            const total = this.people.controls.reduce((acc, group:FormGroup)=>{
-                const a = group.controls['a'].value;
-                const b = group.controls['b'].value;
-
-                return acc + parseInt(a) + parseInt(b);
-            }, 0);
-
-            return total > 24
-                ? {valid: false}
-                : null;
-        };
-
         const formGroup = this.fb.group({a: 3, b:4});
 
         this.people.push(formGroup);
-        this.people.controls.forEach(group => group.setValidators([validator]));
+        this.people.controls.forEach(group => group.setValidators([this.totalValidator]));
     }
 
     ngAfterViewInit() {
-        this.people
+        this.total$ = this.people
             .valueChanges
+            .startWith(0)
             .map(()=> {
                 const total = this.people.controls.reduce((acc, group:FormGroup)=>{
                     const a = group.controls['a'].value;
@@ -67,7 +77,10 @@ export class AppComponent {
 
                 return total;
             })
-            .distinctUntilChanged()
+            .distinctUntilChanged();
+
+
+         this.total$
             .subscribe(total => {
                 this.people.controls.forEach(control =>{
                     control.updateValueAndValidity();
