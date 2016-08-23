@@ -14,7 +14,7 @@ import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
 }
 `],
     template: `<form (ngSubmit)="null" [formGroup]="form">
-    <h2 [ngClass]="{'ng-invalid': (total$ | async) > 23}">{{total$ | async}} should be < 24</h2>
+    <h2 [ngClass]="{'ng-invalid': (greaterThan23$ | async)}">{{total$ | async}} should be < 24</h2>
     <div formArrayName="people">
         <fieldset #group *ngFor="let group of people.controls; let i = index" [formGroupName]="i">
             {{people.controls[i].valid}}
@@ -28,6 +28,7 @@ import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
 })
 export class AppComponent {
     total$;
+    greaterThan23$;
 
     form: FormGroup;
     people: FormArray;
@@ -76,7 +77,10 @@ export class AppComponent {
                 causing a changeDetection error...
              */
             .map(()=> this.total())
-            .distinctUntilChanged()
+            .distinctUntilChanged();
+
+        this.greaterThan23$ = this.total$
+            .map(total => total > 23)
     }
 
     ngAfterViewInit() {
