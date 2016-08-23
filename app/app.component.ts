@@ -1,17 +1,11 @@
-import {Component, ViewChild} from "@angular/core";
-
-import {Observable} from "rxjs/Observable";
-import "rxjs/add/observable/combineLatest";
-import "rxjs/add/operator/filter";
+import {Component} from "@angular/core";
 
 @Component({
     selector: 'app',
     styles:[`
-.ng-invalid{
-    border: 3px solid red;
-}
-.ng-valid{
-    border: 3px solid green;
+
+input[type="radio"].ng-invalid + label:after{
+    content: '<--- Pick one!'
 }
 `],
     template: `
@@ -19,54 +13,26 @@ import "rxjs/add/operator/filter";
     #formRef="ngForm" 
     (ngSubmit)="onSubmit(formRef.value)"
     >
-    <fieldset ngModelGroup="login">
-        <input 
-            #usernameRef="ngModel"
-            name="username"
-            [(ngModel)]="username"
-            type="text"        
-            required
-            minlength="3"
-        >    
-        <div *ngIf="usernameRef.errors?.required">This field is required</div>
-        <div *ngIf="usernameRef.errors?.minlength">This field must be longer than {{usernameRef.errors?.minlength.requiredLength}} characters. You only typed {{usernameRef.errors?.minlength.actualLength}}</div>
-        
-        <hr>
-        Pristine: {{usernameRef.pristine}}
-        <hr>
-        Dirty: {{usernameRef.dirty}}
-        <hr>
-        Untouched: {{usernameRef.untouched}}
-        <hr>
-        Touched: {{usernameRef.touched}}        
-        <hr>
-        
-        
-        <input type="password" ngModel name="password">
+    <fieldset ngModelGroup="vacation">
+    
+    <div *ngFor="let location of locations">        
+        <input [attr.id]="location" required type="radio" [value]="location" name="location" ngModel>
+        <label [attr.for]="location">{{location}}</label>
+    </div>
+   
     </fieldset>
     <button type="submit">Submit</button>
 </form> 
 {{formRef.value | json}}   
-{{formRef.valid | json}}   
+<hr>
+Valid: {{formRef.valid | json}}   
    
 `
 })
 export class AppComponent {
-    @ViewChild('formRef') form;
-
-    username = "John";
+    locations = ["home", "away"];
 
     onSubmit(formValue){
         console.log(formValue);
-    }
-
-    ngAfterViewInit(){
-       Observable.combineLatest(
-           this.form.statusChanges,
-           this.form.valueChanges,
-           (status, value)=> ({status, value})
-       )
-           .filter(({status})=> status === 'VALID')
-           .subscribe(({value})=> console.table(value))
     }
 }
