@@ -1,14 +1,17 @@
-import {Component, ViewChild, ViewChildren, QueryList} from "@angular/core";
+import {Component} from "@angular/core";
 import "rxjs/add/operator/distinctUntilChanged";
-import {NgModel, NgModelGroup, FormBuilder, FormControl, FormGroup, FormArray} from "@angular/forms";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/map";
+import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
 
 @Component({
     selector: 'app',
     template: `<form (ngSubmit)="null" [formGroup]="form">
     <div formArrayName="people">
-        <fieldset *ngFor="let group of people.controls; let i = index" [formGroupName]="i">
-            <input type="text" formControlName="a">
-            <input type="text" formControlName="b">
+        <fieldset #group *ngFor="let group of people.controls; let i = index" [formGroupName]="i">
+            {{people.controls[i].valid}}
+            <label for="a"></label><input id="a" type="number" formControlName="a">
+            <label for="b"></label><input id="b" type="number" formControlName="b">
         </fieldset>
     </div>
     <button (click)="add()">Add Group</button>
@@ -22,21 +25,53 @@ export class AppComponent {
     constructor(private fb: FormBuilder) {
         this.people = fb.array([]);
 
-        this.form = fb.group({
-            people: this.people
-        })
+        this.form = new FormGroup({
+                people: this.people
+            }
+        );
+
+        this.add();
+        this.add();
     }
 
     add() {
-        this.people.push(this.fb.group(
-            {
-                a: '',
-                b: ''
-            }
-        ));
+        const validator = ()=> {
+            const total = this.people.controls.reduce((acc, group:FormGroup)=>{
+                const a = group.controls['a'].value;
+                const b = group.controls['b'].value;
+
+                return acc + parseInt(a) + parseInt(b);
+            }, 0);
+
+            return total > 24
+                ? {valid: false}
+                : null;
+        };
+
+        const formGroup = this.fb.group({a: 3, b:4});
+
+        this.people.push(formGroup);
+        this.people.controls.forEach(group => group.setValidators([validator]));
     }
 
-    ngAfterViewInit(){
-        this.form.valueChanges.subscribe(v => console.log(v));
+    ngAfterViewInit() {
+        this.people
+            .valueChanges
+            .map(()=> {
+                const total = this.people.controls.reduce((acc, group:FormGroup)=>{
+                    const a = group.controls['a'].value;
+                    const b = group.controls['b'].value;
+
+                    return acc + parseInt(a) + parseInt(b);
+                }, 0);
+
+                return total;
+            })
+            .distinctUntilChanged()
+            .subscribe(total => {
+                this.people.controls.forEach(control =>{
+                    control.updateValueAndValidity();
+                })
+            });
     }
 }
