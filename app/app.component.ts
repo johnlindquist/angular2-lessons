@@ -66,16 +66,21 @@ export class AppComponent {
         this.people.controls.forEach(group => group.setValidators([this.totalValidator]));
     }
 
-    ngAfterViewInit() {
+    ngAfterContentInit(){
         this.total$ = this.people
             .valueChanges
             .startWith(0)
+            /*
+                startWith would cause a sync
+                view change in `ngAfterViewInit`
+                causing a changeDetection error...
+             */
             .map(()=> this.total())
             .distinctUntilChanged()
-            .share();
+    }
 
-
-         this.total$
+    ngAfterViewInit() {
+        this.total$
             .subscribe(total => {
                 this.people.controls.forEach(control =>{
                     control.updateValueAndValidity();
