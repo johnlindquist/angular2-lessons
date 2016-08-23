@@ -3,6 +3,7 @@ import "rxjs/add/operator/distinctUntilChanged";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/startWith";
+import "rxjs/add/operator/share";
 import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
 
 @Component({
@@ -70,7 +71,8 @@ export class AppComponent {
             .valueChanges
             .startWith(0)
             .map(()=> this.total())
-            .distinctUntilChanged();
+            .distinctUntilChanged()
+            .share();
 
 
          this.total$
