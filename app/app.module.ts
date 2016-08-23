@@ -1,12 +1,13 @@
 import {BrowserModule} from "@angular/platform-browser";
-import {AppComponent} from "./app.component";
+import {AppComponent, TotalService, TotalValidator} from "./app.component";
 import {NgModule} from "@angular/core";
 import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
     imports: [BrowserModule, ReactiveFormsModule],
-    declarations: [AppComponent],
-    bootstrap: [AppComponent]
+    declarations: [AppComponent, TotalValidator],
+    bootstrap: [AppComponent],
+    providers:[TotalService]
 })
 export class AppModule {
 }

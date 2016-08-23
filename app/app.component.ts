@@ -1,25 +1,55 @@
-import {Component} from "@angular/core";
+import {Component, Directive, forwardRef} from "@angular/core";
 import "rxjs/add/operator/distinctUntilChanged";
 import "rxjs/add/operator/do";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/startWith";
 import "rxjs/add/operator/share";
-import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
+import {
+    FormBuilder, FormGroup, FormArray, NG_VALIDATORS, Validator, AbstractControl,
+    FormControl
+} from "@angular/forms";
+
+export class TotalService {
+    total = 0; //:)
+}
+
+export const TOTAL_VALIDATOR: any = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(()=> TotalValidator),
+    multi: true
+};
+
+@Directive({
+    selector: '[total][formControlName],[total][formControl],[total][ngModel]',
+    providers: [TOTAL_VALIDATOR]
+})
+export class TotalValidator implements Validator {
+    constructor(private totalService: TotalService) {
+        console.log(totalService);
+    }
+
+    validate() {
+        console.log(this.totalService.total)
+        return this.totalService.total > 24
+            ? {valid: false}
+            : null;
+    }
+}
+
 
 @Component({
     selector: 'app',
-    styles:[`
+    styles: [`
 .ng-invalid{
     color: red;
 }
 `],
     template: `<form (ngSubmit)="null" [formGroup]="form">
-    <h2 [ngClass]="{'ng-invalid': (greaterThan23$ | async)}">{{total$ | async}} should be < 24</h2>
     <div formArrayName="people">
         <fieldset #group *ngFor="let group of people.controls; let i = index" [formGroupName]="i">
             {{people.controls[i].valid}}
-            <label for="a"></label><input id="a" type="number" formControlName="a">
-            <label for="b"></label><input id="b" type="number" formControlName="b">
+            <label for="a"></label><input id="a" type="number" formControlName="a" total>
+            <label for="b"></label><input id="b" type="number" formControlName="b" total>
         </fieldset>
     </div>
     <button (click)="add()">Add Group</button>
@@ -27,13 +57,10 @@ import {FormBuilder, FormGroup, FormArray} from "@angular/forms";
 `
 })
 export class AppComponent {
-    total$;
-    greaterThan23$;
-
     form: FormGroup;
     people: FormArray;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private totalService: TotalService) {
         this.people = fb.array([]);
 
         this.form = new FormGroup({
@@ -45,50 +72,36 @@ export class AppComponent {
         this.add();
     }
 
-    total(){
-        return this.people.controls.reduce((acc, group:FormGroup)=>{
-            const a = group.controls['a'].value;
-            const b = group.controls['b'].value;
-
-            return acc + parseInt(a) + parseInt(b);
-        }, 0);
-    }
-
-    totalValidator = ()=> {
-        return this.total() < 24
-            ? null
-            : {valid: false};
-    };
-
     add() {
-        const formGroup = this.fb.group({a: 3, b:4});
-
-        this.people.push(formGroup);
-        this.people.controls.forEach(group => group.setValidators([this.totalValidator]));
+        this.people.push(this.fb.group(
+            {
+                a: 3,
+                b: 4
+            }
+        ));
     }
 
-    ngAfterContentInit(){
-        this.total$ = this.people
+    ngAfterContentInit() {
+        this.people
             .valueChanges
             .startWith(0)
-            /*
-                startWith would cause a sync
-                view change in `ngAfterViewInit`
-                causing a changeDetection error...
-             */
-            .map(()=> this.total())
-            .distinctUntilChanged();
+            .map(()=> this.people.controls.reduce((acc, group: FormGroup)=> {
+                const a = group.controls['a'].value;
+                const b = group.controls['b'].value;
 
-        this.greaterThan23$ = this.total$
-            .map(total => total > 23)
-    }
-
-    ngAfterViewInit() {
-        this.total$
+                return acc + parseInt(a) + parseInt(b);
+            }, 0))
+            .distinctUntilChanged()
             .subscribe(total => {
-                this.people.controls.forEach(control =>{
-                    control.updateValueAndValidity();
-                })
-            });
+                    this.totalService.total = total;
+
+                    this.people.controls.forEach((group: FormGroup) =>
+                            Object.keys(group.controls).forEach(key =>
+                                group.controls[key].updateValueAndValidity()
+                            )
+
+                    )
+                }
+            );
     }
 }
