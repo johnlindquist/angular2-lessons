@@ -9,17 +9,15 @@ import {Component} from "@angular/core";
 `],
     template: `
 <form #formRef="ngForm">
-    <div *ngFor="let location of locations">
-        <input 
-            [attr.id]="location"
-            name="location"
-            [ngModel]="locations[0]"
-            [value]="location"
-            type="radio"
-            required
-        >
-        <label [attr.for]="location">{{location}}</label>
-    </div>
+    <select name="location" [ngModel]="locations[0]">
+        <option 
+            *ngFor="let location of locations"
+            [value]="location">
+            
+            {{location}}
+            
+        </option>
+    </select>
 </form> 
 {{formRef.value | json}}   
 <hr>
