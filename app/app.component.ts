@@ -5,7 +5,8 @@ import {Component} from "@angular/core";
 <input 
     type="text" 
     value="Hello World"
-    #message
+    ngModel
+    #message="ngModel"
     >
 {{message.value}}
 `
