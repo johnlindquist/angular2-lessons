@@ -7,8 +7,11 @@ import {Component} from "@angular/core";
     value="Hello World"
     ngModel
     #message="ngModel"
+    required
     >
 {{message.value}}
+<hr>
+{{message.valid}}
 `
 })
 export class AppComponent {
