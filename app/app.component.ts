@@ -20,7 +20,7 @@ import {Component, Directive} from "@angular/core";
     required
     >
 </form>
-{{f.value}} 
+{{f.value | json}} 
 <hr> 
 {{f.valid | json}}
 `
