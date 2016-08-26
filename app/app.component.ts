@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 @Component({
     selector: 'app',
-    styles:[`
+    styles: [`
 .ng-valid{
     border: 3px solid green;
 }
@@ -11,17 +11,15 @@ import {Component} from "@angular/core";
 }
 `],
     template: `
-<input 
-    type="text" 
-    [ngModel]="myMessage"
-    #message="ngModel"
-    required
+<form #f="ngForm">
+<input
+    type="text"
+    name="message"
+    ngModel    
     >
-{{message.value}}
-<hr>
-{{message.valid | json}}
+ </form>
+{{f.value | json}}
 `
 })
 export class AppComponent {
-    myMessage = "A wonderful message";
 }
