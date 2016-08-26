@@ -13,8 +13,7 @@ import {Component} from "@angular/core";
     template: `
 <input 
     type="text" 
-    value="Hello World"
-    ngModel
+    [ngModel]="myMessage"
     #message="ngModel"
     required
     >
@@ -24,4 +23,5 @@ import {Component} from "@angular/core";
 `
 })
 export class AppComponent {
+    myMessage = "A wonderful message";
 }
