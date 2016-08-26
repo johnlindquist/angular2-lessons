@@ -1,4 +1,4 @@
-import {Component, Directive} from "@angular/core";
+import {Component} from "@angular/core";
 
 @Component({
     selector: 'app',
@@ -18,8 +18,13 @@ import {Component, Directive} from "@angular/core";
     name="message"
     ngModel
     required
+    >    
+<button 
+    type="submit"
+    [disabled]="f.invalid"
     >
-<button type="submit">Submit</button>    
+    Submit
+</button>    
 </form>
 {{f.value | json}} 
 <hr> 
