@@ -1,4 +1,5 @@
-import {Component} from "@angular/core";
+import {Component, Directive} from "@angular/core";
+
 @Component({
     selector: 'app',
     styles: [`
@@ -15,10 +16,13 @@ import {Component} from "@angular/core";
 <input
     type="text"
     name="message"
-    ngModel    
+    ngModel
+    required
     >
- </form>
-{{f.value | json}}
+</form>
+{{f.value}} 
+<hr> 
+{{f.valid | json}}
 `
 })
 export class AppComponent {
