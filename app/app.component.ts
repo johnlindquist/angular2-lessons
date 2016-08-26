@@ -17,11 +17,11 @@ import {Component} from "@angular/core";
     type="text"
     name="message"
     ngModel
-    required
+    minlength="3"
     >    
 <button 
     type="submit"
-    [disabled]="f.invalid"
+    [disabled]="f.invalid || f.pristine"
     >
     Submit
 </button>    
