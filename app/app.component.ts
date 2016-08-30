@@ -1,25 +1,8 @@
 import {Component} from "@angular/core";
-
 @Component({
-    selector: 'app',
+    selector:'app',
     template: `
-<form #formRef="ngForm">
-    <select name="location" [ngModel]="locations[0]">
-        <option 
-            *ngFor="let location of locations"
-            [value]="location">
-            
-            {{location}}
-            
-        </option>
-    </select>
-</form> 
-{{formRef.value | json}}   
-<hr>
-Valid: {{formRef.valid | json}}   
-   
+<div>I'm the App Component</div>
 `
 })
-export class AppComponent {
-    locations = ["Home", "Away", "Space", "Ocean", "Stars"];
-}
+export class AppComponent{}
