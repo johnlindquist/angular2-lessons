@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {SimpleService} from "../services/services.module";
 @Component({
     selector: 'home',
     template: `
@@ -7,4 +8,6 @@ import {Component} from "@angular/core";
 <widget-two></widget-two>
 `
 })
-export class HomeComponent{}
+export class HomeComponent{
+    constructor(private simpleService:SimpleService){}
+}
