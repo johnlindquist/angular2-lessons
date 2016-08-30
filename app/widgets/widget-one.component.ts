@@ -1,9 +1,11 @@
-import {Component} from "@angular/core";
+import {Component, Input} from "@angular/core";
 @Component({
     selector: 'widget-one',
     template: `
-<div>One</div>
+<h2>One's message:</h2>
+<h3>{{message}}</h3>
 `
 })
 export class WidgetOne{
+    @Input() message;
 }
