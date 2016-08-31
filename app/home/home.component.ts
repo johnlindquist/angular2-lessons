@@ -5,14 +5,11 @@ import {SimpleService} from "../services/services.module";
     template: `
 <widget-two>
 
-<widget-one [message]="simpleService.message"></widget-one>
+<h2 header>Title</h2>
+<div content>Some content</div>
+<h3 footer>Footer</h3>
 
 </widget-two>
-
-<widget-two>
-Some other content
-</widget-two>
-
 `
 })
 export class HomeComponent{
