@@ -12,7 +12,8 @@ export class HomeComponent{
     constructor(private resolver:ComponentFactoryResolver){}
 
     ngAfterContentInit(){
-        const widgetFactory = this.resolver.resolveComponentFactory(WidgetThree);
+        const widgetFactory = this.resolver
+            .resolveComponentFactory(WidgetThree);
 
         this.container.createComponent(widgetFactory);
         this.container.createComponent(widgetFactory);
@@ -22,6 +23,9 @@ export class HomeComponent{
         this.container.createComponent(widgetFactory);
         this.container.createComponent(widgetFactory);
         this.container.createComponent(widgetFactory);
-        this.container.createComponent(widgetFactory);
+        const widgetRef = this.container
+            .createComponent(widgetFactory);
+
+        widgetRef.instance.message = "I'm last!";
     }
 }
