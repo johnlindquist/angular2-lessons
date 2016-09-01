@@ -7,11 +7,21 @@ import {WidgetThree} from "../widgets/widget-three.component";
 `
 })
 export class HomeComponent{
-    @ViewChild('container', {read: ViewContainerRef}) container:ViewContainerRef;
+    @ViewChild('container', {read:ViewContainerRef}) container;
 
     constructor(private resolver:ComponentFactoryResolver){}
 
-    ngAfterViewInit(){
-        this.container.createComponent(this.resolver.resolveComponentFactory(WidgetThree));
+    ngAfterContentInit(){
+        const widgetFactory = this.resolver.resolveComponentFactory(WidgetThree);
+
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
+        this.container.createComponent(widgetFactory);
     }
 }
