@@ -1,11 +1,17 @@
-import {Component} from "@angular/core";
-import {SimpleService} from "../services/services.module";
+import {Component, ViewChild, ViewContainerRef, ComponentFactoryResolver} from "@angular/core";
+import {WidgetThree} from "../widgets/widget-three.component";
 @Component({
     selector: 'home',
     template: `
-<widget-three></widget-three>
+<div #container></div>
 `
 })
 export class HomeComponent{
-    constructor(private simpleService:SimpleService){}
+    @ViewChild('container', {read: ViewContainerRef}) container:ViewContainerRef;
+
+    constructor(private resolver:ComponentFactoryResolver){}
+
+    ngAfterViewInit(){
+        this.container.createComponent(this.resolver.resolveComponentFactory(WidgetThree));
+    }
 }

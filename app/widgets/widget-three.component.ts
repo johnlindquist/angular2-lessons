@@ -15,6 +15,6 @@ export class WidgetThree{
             this.input.nativeElement,
             'focus',
             []
-        )
+        );
     }
 }
