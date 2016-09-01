@@ -3,12 +3,14 @@ import {WidgetThree} from "../widgets/widget-three.component";
 @Component({
     selector: 'home',
     template: `
-<button (click)="onClick()">Add Component</button>
+<button (click)="onClick()">Move Component</button>
 <div #container></div>
 `
 })
 export class HomeComponent{
     @ViewChild('container', {read:ViewContainerRef}) container;
+
+    widgetRef;
 
     constructor(private resolver:ComponentFactoryResolver){}
 
@@ -25,19 +27,15 @@ export class HomeComponent{
         this.container.createComponent(widgetFactory);
         this.container.createComponent(widgetFactory);
 
-        const widgetRef = this.container
+        this.widgetRef = this.container
             .createComponent(widgetFactory, 2);
 
-        widgetRef.instance.message = "I'm third";
+        this.widgetRef.instance.message = "I'm third";
     }
 
     onClick(){
-        const widgetFactory = this.resolver
-            .resolveComponentFactory(WidgetThree);
+        const randomIndex = Math.floor(Math.random() * this.container.length);
 
-        const widgetRef = this.container
-            .createComponent(widgetFactory, 3);
-
-        widgetRef.instance.message = "I'm fourth";
+        this.container.move(this.widgetRef.hostView, randomIndex);
     }
 }
