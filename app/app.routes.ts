@@ -1,9 +1,8 @@
-import {HomeComponent} from "./home/home.component";
 import {RouterModule} from "@angular/router";
-import {ContactsComponent} from "./contacts/contacts.component";
+
 const routes = [
-    {path: '', component:HomeComponent},
-    {path: 'contacts', component:ContactsComponent}
+    {path: '', loadChildren: 'app/home/home.module'},
+    {path: 'contacts', loadChildren: 'app/contacts/contacts.module'}
 ];
 
 
