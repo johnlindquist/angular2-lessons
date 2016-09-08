@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/styles.css">
 
-    <base href="/">
     <script>console.clear();</script>
+    
+    <script>document.write('<base href="' + document.location.origin + '/" />');</script>
+
+
     <script src="https://npmcdn.com/es6-shim@0.35.0/es6-shim.min.js"></script>
 
     <script src="https://npmcdn.com/zone.js@0.6.12?main=browser"></script>
