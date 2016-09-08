@@ -16,8 +16,22 @@ a.active{
         routerLink="" 
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}"
-        >Home</a>
-    <a routerLink="contacts" routerLinkActive="active">Contacts</a>
+        >
+        Home
+    </a>
+    <a 
+        routerLink="contacts" 
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact:true}"
+        >
+        Contacts
+    </a> 
+    <a 
+        routerLink="contacts/1" 
+        routerLinkActive="active"
+        >
+        Contact One
+    </a>                        
 </nav>
 <router-outlet></router-outlet>
 `
