@@ -8,8 +8,14 @@
 
     <script>console.clear();</script>
 
-    <script>console.log(document.location)</script>
-    <script>document.write('<base href="' + document.location.origin + '/" />');</script>
+    <script>
+      var path = document.location.href.includes('plnkr')
+              ? './'
+              : '/';
+      console.log(path);
+
+      document.write('<base href=" ' + path + ' " />');
+    </script>
 
 
     <script src="https://npmcdn.com/es6-shim@0.35.0/es6-shim.min.js"></script>
