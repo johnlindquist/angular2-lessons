@@ -14,7 +14,7 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
                 'background-color':'red',
                 'height':'50px'
             })),
-            transition('* => *', animate(500))
+            transition('* => *', animate('2s 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)'))
         ])
     ],
     styles:[`
