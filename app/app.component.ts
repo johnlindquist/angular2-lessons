@@ -1,14 +1,20 @@
-import {Component, trigger, state, style} from "@angular/core";
+import {Component, trigger, state, style, transition, animate} from "@angular/core";
 @Component({
     selector: 'app',
     animations:[
         trigger('signal', [
+            state('void', style({
+                'transform':'translateY(-100%)'
+            })),
             state('go', style({
-                'background-color':'green'
+                'background-color':'green',
+                'height':'100px'
             })),
             state('stop', style({
-                'background-color':'red'
-            }))
+                'background-color':'red',
+                'height':'50px'
+            })),
+            transition('* => *', animate(500))
         ])
     ],
     styles:[`
@@ -21,16 +27,30 @@ import {Component, trigger, state, style} from "@angular/core";
     template: `
 <div
     [@signal]="signal"
-    class="traffic-light">
+    class="traffic-light"
+    *ngIf="isHere"
+    >
     
 </div>
 <button (click)="onGoClick()">Go</button>
+<button (click)="onStopClick()">Stop</button>
+<hr>
+<button (click)="onToggleClick()">Toggle</button>
 `
 })
 export class AppComponent {
-    signal = 'stop';
+    signal;
+    isHere = false;
 
     onGoClick(){
         this.signal = 'go';
+    }
+
+    onStopClick(){
+        this.signal = 'stop';
+    }
+
+    onToggleClick(){
+        this.isHere = !this.isHere;
     }
 }
