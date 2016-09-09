@@ -12,28 +12,21 @@ a.active{
 `],
     template: `
 <nav>
-    <a 
-        routerLink="" 
+    <a *ngFor="let nav of navs" 
+        [routerLink]="nav.url" 
         routerLinkActive="active"
         [routerLinkActiveOptions]="{exact:true}"
         >
-        Home
+        {{nav.content}}
     </a>
-    <a 
-        routerLink="contacts" 
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact:true}"
-        >
-        Contacts
-    </a> 
-    <a 
-        routerLink="contacts/1" 
-        routerLinkActive="active"
-        >
-        Contact One
-    </a>                        
 </nav>
 <router-outlet></router-outlet>
 `
 })
-export class AppComponent{}
+export class AppComponent{
+    navs = [
+        {url: "", content: "Home"},
+        {url: "contacts", content: "Contacts"},
+        {url: "contacts/1", content: "One"},
+    ];
+}
