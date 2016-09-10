@@ -3,9 +3,6 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
     selector: 'app',
     animations:[
         trigger('signal', [
-            state('void', style({
-                'transform':'translateY(-100%)'
-            })),
             state('go', style({
                 'background-color':'green',
                 'height':'100px'
@@ -14,7 +11,7 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
                 'background-color':'red',
                 'height':'50px'
             })),
-            transition('* => *', animate('2s 1s cubic-bezier(0.455, 0.03, 0.515, 0.955)'))
+            transition('* => *', animate(500))
         ])
     ],
     styles:[`
@@ -27,20 +24,15 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
     template: `
 <div
     [@signal]="signal"
-    class="traffic-light"
-    *ngIf="isHere"
-    >
+    class="traffic-light">
     
 </div>
 <button (click)="onGoClick()">Go</button>
 <button (click)="onStopClick()">Stop</button>
-<hr>
-<button (click)="onToggleClick()">Toggle</button>
 `
 })
 export class AppComponent {
-    signal;
-    isHere = false;
+    signal = 'stop';
 
     onGoClick(){
         this.signal = 'go';
@@ -48,9 +40,5 @@ export class AppComponent {
 
     onStopClick(){
         this.signal = 'stop';
-    }
-
-    onToggleClick(){
-        this.isHere = !this.isHere;
     }
 }
