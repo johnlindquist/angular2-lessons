@@ -1,9 +1,10 @@
 import {NgModule} from "@angular/core";
+import {CommonModule} from "@angular/common";
 import {HomeComponent} from "./home.component";
-import {WidgetModule} from "../widgets/widgets.module";
+import homeRoutes from "./home.routes";
+
 @NgModule({
-    imports:[WidgetModule],
-    declarations:[HomeComponent],
-    exports:[HomeComponent]
+    imports:[CommonModule, homeRoutes],
+    declarations: [HomeComponent]
 })
-export class HomeModule{}
+export default class HomeModule{}
