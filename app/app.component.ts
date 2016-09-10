@@ -1,4 +1,4 @@
-import {Component, trigger, state, style, transition, animate} from "@angular/core";
+import {Component, trigger, state, style, transition, animate, keyframes} from "@angular/core";
 @Component({
     selector: 'app',
     animations:[
@@ -14,7 +14,15 @@ import {Component, trigger, state, style, transition, animate} from "@angular/co
                 'background-color':'red',
                 'height':'50px'
             })),
-            transition('* => *', animate('2s 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)'))
+            transition('void <=> *', animate(1000, keyframes([
+                style({'transform':'scale(0)'}),
+                style({'transform':'scale(.9)'}),
+                style({'transform':'scale(.1)'}),
+                style({'transform':'scale(.9)'}),
+                style({'transform':'scale(.5)'}),
+                style({'transform':'scale(1)'})
+            ]))),
+            transition('go <=> stop', animate('2s 1s cubic-bezier(0.175, 0.885, 0.32, 1.275)'))
         ])
     ],
     styles:[`
