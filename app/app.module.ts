@@ -1,10 +1,9 @@
 import {BrowserModule} from "@angular/platform-browser";
 import {AppComponent} from "./app.component";
 import {NgModule} from "@angular/core";
-import {routes} from "./app.routes";
-import TodoModule from "./shared/todo.module";
+import {FormsModule} from "@angular/forms";
 @NgModule({
-    imports: [BrowserModule, routes, TodoModule.forRoot()],
+    imports: [BrowserModule, FormsModule],
     declarations: [AppComponent],
     bootstrap: [AppComponent]
 })
