@@ -3,6 +3,7 @@ import {Component} from "@angular/core";
     selector: 'app',
     template: `
     <input type="text" [(ngModel)]="username">
+    {{username}}
 `
 })
 export class AppComponent {
