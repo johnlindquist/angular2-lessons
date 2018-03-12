@@ -14,7 +14,7 @@ export class ContactsComponent{
     contacts$;
 
     constructor(private http:Http){
-        this.contacts$ = http.get('https://starwars-json-server-ewtdxbyfdz.now.sh/people')
+        this.contacts$ = http.get('https://swapi-json-server-kvzljgnbob.now.sh/people')
             .map(res => res.json());
     }
 }
